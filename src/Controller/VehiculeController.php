@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/vehicule')]
 final class VehiculeController extends AbstractController
@@ -78,5 +79,23 @@ final class VehiculeController extends AbstractController
         }
 
         return $this->redirectToRoute('app_vehicule_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/basculer', name: 'app_vehicule_basculer', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function basculer(Vehicule $vehicule, EntityManagerInterface $entityManager): Response
+    {
+        // Si le véhicule est en achat, on le passe en location, et inversement
+        if ($vehicule->getType() === 'achat') {
+            $vehicule->setType('location');
+        } else {
+            $vehicule->setType('achat');
+        }
+
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Le type du véhicule a été basculé.');
+
+        return $this->redirectToRoute('app_vehicule_index');
     }
 }

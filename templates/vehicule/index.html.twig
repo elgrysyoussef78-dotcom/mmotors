@@ -39,6 +39,7 @@
                 <td>
                     <a href="{{ path('app_vehicule_show', {'id': vehicule.id}) }}">show</a>
                     <a href="{{ path('app_vehicule_edit', {'id': vehicule.id}) }}">edit</a>
+                    <a href="{{ path('app_vehicule_basculer', {id: vehicule.id}) }}">Basculer vente/location</a>
                 </td>
             </tr>
         {% else %}
