@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Déposer un dossier{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Déposer un dossier</h1>
+
+    <p>
+        Véhicule : <strong>{{ vehicule.marque }} {{ vehicule.modele }}</strong>
+        ({{ vehicule.motorisation }}, {{ vehicule.kilometrage }} km)
+    </p>
+
+    {{ form_start(form) }}
+        {{ form_row(form.type) }}
+        <button class="btn btn-primary">Envoyer ma demande</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_vehicule_index') }}" class="btn btn-link mt-2">Retour</a>
+</div>
+{% endblock %}

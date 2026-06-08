@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon espace{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Mes dossiers</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    {% if dossiers is empty %}
+        <p>Vous n'avez aucun dossier pour le moment.</p>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Véhicule</th>
+                    <th>Type</th>
+                    <th>Statut</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dossier in dossiers %}
+                    <tr>
+                        <td>{{ dossier.vehicule.marque }} {{ dossier.vehicule.modele }}</td>
+                        <td>{{ dossier.type }}</td>
+                        <td>{{ dossier.statut }}</td>
+                        <td>{{ dossier.createdAt|date('d/m/Y') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}

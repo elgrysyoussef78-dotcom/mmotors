@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\VehiculeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VehiculeRepository::class)]
@@ -42,6 +44,17 @@ class Vehicule
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    /**
+     * @var Collection<int, Dossier>
+     */
+    #[ORM\OneToMany(targetEntity: Dossier::class, mappedBy: 'vehicule')]
+    private Collection $dossiers;
+
+    public function __construct()
+    {
+        $this->dossiers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -164,6 +177,36 @@ class Vehicule
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Dossier>
+     */
+    public function getDossiers(): Collection
+    {
+        return $this->dossiers;
+    }
+
+    public function addDossier(Dossier $dossier): static
+    {
+        if (!$this->dossiers->contains($dossier)) {
+            $this->dossiers->add($dossier);
+            $dossier->setVehicule($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDossier(Dossier $dossier): static
+    {
+        if ($this->dossiers->removeElement($dossier)) {
+            // set the owning side to null (unless already changed)
+            if ($dossier->getVehicule() === $this) {
+                $dossier->setVehicule(null);
+            }
+        }
 
         return $this;
     }
