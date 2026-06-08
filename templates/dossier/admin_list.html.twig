@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des dossiers{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Tous les dossiers</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    {% if dossiers is empty %}
+        <p>Aucun dossier déposé.</p>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Véhicule</th>
+                    <th>Type</th>
+                    <th>Statut</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dossier in dossiers %}
+                    <tr>
+                        <td>{{ dossier.user.prenom }} {{ dossier.user.nom }}</td>
+                        <td>{{ dossier.vehicule.marque }} {{ dossier.vehicule.modele }}</td>
+                        <td>{{ dossier.type }}</td>
+                        <td>{{ dossier.statut }}</td>
+                        <td>{{ dossier.createdAt|date('d/m/Y') }}</td>
+                        <td>
+                            <a href="{{ path('app_admin_dossier_valider', {id: dossier.id}) }}" class="btn btn-success btn-sm">Valider</a>
+                            <a href="{{ path('app_admin_dossier_refuser', {id: dossier.id}) }}" class="btn btn-danger btn-sm">Refuser</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}
