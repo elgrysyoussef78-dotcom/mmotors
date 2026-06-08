@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ vehicule.marque }} {{ vehicule.modele }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>{{ vehicule.marque }} {{ vehicule.modele }}</h1>
+
+    <p>Motorisation : {{ vehicule.motorisation }}</p>
+    <p>Kilométrage : {{ vehicule.kilometrage }} km</p>
+    <p>Type : {{ vehicule.type }}</p>
+    {% if vehicule.type == 'achat' %}
+        <p>Prix : {{ vehicule.prixAchat }} €</p>
+    {% else %}
+        <p>Loyer mensuel : {{ vehicule.prixLocationMois }} €/mois</p>
+    {% endif %}
+
+    <a href="{{ path('app_dossier_new', {id: vehicule.id}) }}" class="btn btn-success">Déposer un dossier</a>
+    <a href="{{ path('app_home') }}" class="btn btn-link">Retour</a>
+</div>
+{% endblock %}

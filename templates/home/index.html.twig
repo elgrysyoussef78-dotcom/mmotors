@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}M-Motors - Accueil{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Nos véhicules</h1>
+
+    <div class="mb-3">
+        <a href="{{ path('app_home') }}" class="btn btn-outline-secondary btn-sm">Tous</a>
+        <a href="{{ path('app_home', {type: 'achat'}) }}" class="btn btn-outline-primary btn-sm">À vendre</a>
+        <a href="{{ path('app_home', {type: 'location'}) }}" class="btn btn-outline-success btn-sm">En location</a>
+    </div>
+
+    {% if vehicules is empty %}
+        <p>Aucun véhicule disponible.</p>
+    {% else %}
+        <div class="row">
+            {% for vehicule in vehicules %}
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ vehicule.marque }} {{ vehicule.modele }}</h5>
+                            <p class="card-text">
+                                {{ vehicule.motorisation }} — {{ vehicule.kilometrage }} km<br>
+                                Type : {{ vehicule.type }}
+                            </p>
+                            <a href="{{ path('app_voiture_show', {id: vehicule.id}) }}" class="btn btn-primary btn-sm">Voir</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
