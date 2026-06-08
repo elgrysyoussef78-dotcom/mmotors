@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vehicule index{% endblock %}
+
+{% block body %}
+    <h1>Vehicule index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Marque</th>
+                <th>Modele</th>
+                <th>Motorisation</th>
+                <th>Kilometrage</th>
+                <th>PrixAchat</th>
+                <th>PrixLocationMois</th>
+                <th>Type</th>
+                <th>Statut</th>
+                <th>Photo</th>
+                <th>CreatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for vehicule in vehicules %}
+            <tr>
+                <td>{{ vehicule.id }}</td>
+                <td>{{ vehicule.marque }}</td>
+                <td>{{ vehicule.modele }}</td>
+                <td>{{ vehicule.motorisation }}</td>
+                <td>{{ vehicule.kilometrage }}</td>
+                <td>{{ vehicule.prixAchat }}</td>
+                <td>{{ vehicule.prixLocationMois }}</td>
+                <td>{{ vehicule.type }}</td>
+                <td>{{ vehicule.statut }}</td>
+                <td>{{ vehicule.photo }}</td>
+                <td>{{ vehicule.createdAt ? vehicule.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_vehicule_show', {'id': vehicule.id}) }}">show</a>
+                    <a href="{{ path('app_vehicule_edit', {'id': vehicule.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_vehicule_new') }}">Create new</a>
+{% endblock %}
