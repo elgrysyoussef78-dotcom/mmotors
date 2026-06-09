@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Documents du dossier{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Documents de mon dossier</h1>
+
+    <p>
+        Véhicule : <strong>{{ dossier.vehicule.marque }} {{ dossier.vehicule.modele }}</strong><br>
+        Type : {{ dossier.type }} — Statut : {{ dossier.statut }}
+    </p>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+
+    <h3>Ajouter un document</h3>
+    <form method="post" enctype="multipart/form-data" class="mb-4">
+        <input type="file" name="document" class="form-control mb-2" required>
+        <button class="btn btn-primary">Envoyer</button>
+    </form>
+
+    <h3>Documents envoyés</h3>
+    {% if dossier.documents is empty %}
+        <p>Aucun document pour le moment.</p>
+    {% else %}
+        <ul class="list-group">
+            {% for document in dossier.documents %}
+                <li class="list-group-item">
+                    {{ document.nomFichier }}
+                    <span class="text-muted">({{ document.uploadedAt|date('d/m/Y') }})</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <a href="{{ path('app_mon_compte') }}" class="btn btn-link mt-3">Retour à mon espace</a>
+</div>
+{% endblock %}
