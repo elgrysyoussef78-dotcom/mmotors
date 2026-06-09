@@ -1,13 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Vehicule{% endblock %}
+{% block title %}Modifier un véhicule{% endblock %}
 
 {% block body %}
-    <h1>Edit Vehicule</h1>
-
-    {{ include('vehicule/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_vehicule_index') }}">back to list</a>
-
-    {{ include('vehicule/_delete_form.html.twig') }}
+<a href="{{ path('app_vehicule_index') }}" class="btn btn-link px-0 mb-2"><i class="bi bi-arrow-left me-1"></i>Retour à la liste</a>
+<div class="card p-4">
+    <h1 class="h4 mb-4">Modifier {{ vehicule.marque }} {{ vehicule.modele }}</h1>
+    {{ include('vehicule/_form.html.twig', {button_label: 'Mettre à jour'}) }}
+</div>
 {% endblock %}

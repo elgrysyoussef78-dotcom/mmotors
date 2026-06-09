@@ -1,62 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vehicule{% endblock %}
+{% block title %}{{ vehicule.marque }} {{ vehicule.modele }}{% endblock %}
 
 {% block body %}
-    <h1>Vehicule</h1>
-
+<a href="{{ path('app_vehicule_index') }}" class="btn btn-link px-0 mb-2"><i class="bi bi-arrow-left me-1"></i>Retour à la liste</a>
+<div class="card p-4">
+    <h1 class="h4 mb-4">{{ vehicule.marque }} {{ vehicule.modele }}</h1>
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ vehicule.id }}</td>
-            </tr>
-            <tr>
-                <th>Marque</th>
-                <td>{{ vehicule.marque }}</td>
-            </tr>
-            <tr>
-                <th>Modele</th>
-                <td>{{ vehicule.modele }}</td>
-            </tr>
-            <tr>
-                <th>Motorisation</th>
-                <td>{{ vehicule.motorisation }}</td>
-            </tr>
-            <tr>
-                <th>Kilometrage</th>
-                <td>{{ vehicule.kilometrage }}</td>
-            </tr>
-            <tr>
-                <th>PrixAchat</th>
-                <td>{{ vehicule.prixAchat }}</td>
-            </tr>
-            <tr>
-                <th>PrixLocationMois</th>
-                <td>{{ vehicule.prixLocationMois }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ vehicule.type }}</td>
-            </tr>
-            <tr>
-                <th>Statut</th>
-                <td>{{ vehicule.statut }}</td>
-            </tr>
-            <tr>
-                <th>Photo</th>
-                <td>{{ vehicule.photo }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ vehicule.createdAt ? vehicule.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
+            <tr><th style="width:200px;">Motorisation</th><td>{{ vehicule.motorisation }}</td></tr>
+            <tr><th>Kilométrage</th><td>{{ vehicule.kilometrage }} km</td></tr>
+            <tr><th>Prix achat</th><td>{{ vehicule.prixAchat ? vehicule.prixAchat ~ ' €' : '—' }}</td></tr>
+            <tr><th>Loyer / mois</th><td>{{ vehicule.prixLocationMois ? vehicule.prixLocationMois ~ ' €' : '—' }}</td></tr>
+            <tr><th>Type</th><td class="text-capitalize">{{ vehicule.type }}</td></tr>
+            <tr><th>Statut</th><td class="text-capitalize">{{ vehicule.statut }}</td></tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_vehicule_index') }}">back to list</a>
-
-    <a href="{{ path('app_vehicule_edit', {'id': vehicule.id}) }}">edit</a>
-
-    {{ include('vehicule/_delete_form.html.twig') }}
+    <a href="{{ path('app_vehicule_edit', {id: vehicule.id}) }}" class="btn btn-primary"><i class="bi bi-pencil me-1"></i>Modifier</a>
+</div>
 {% endblock %}

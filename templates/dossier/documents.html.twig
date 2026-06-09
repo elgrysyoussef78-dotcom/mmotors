@@ -3,41 +3,53 @@
 {% block title %}Documents du dossier{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
-    <h1>Documents de mon dossier</h1>
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <a href="{{ path('app_mon_compte') }}" class="btn btn-link px-0 mb-2"><i class="bi bi-arrow-left me-1"></i>Retour à mon espace</a>
 
-    <p>
-        Véhicule : <strong>{{ dossier.vehicule.marque }} {{ dossier.vehicule.modele }}</strong><br>
-        Type : {{ dossier.type }} — Statut : {{ dossier.statut }}
-    </p>
+        <div class="card p-4 mb-4">
+            <h1 class="h4 mb-1">Documents de mon dossier</h1>
+            <p class="text-muted mb-0">
+                <i class="bi bi-car-front me-1"></i>
+                {{ dossier.vehicule.marque }} {{ dossier.vehicule.modele }}
+                · Type : <span class="text-capitalize">{{ dossier.type }}</span>
+                · Statut :
+                {% if dossier.statut == 'valide' %}
+                    <span class="badge bg-success">Validé</span>
+                {% elseif dossier.statut == 'refuse' %}
+                    <span class="badge bg-danger">Refusé</span>
+                {% else %}
+                    <span class="badge bg-warning text-dark">En attente</span>
+                {% endif %}
+            </p>
+        </div>
 
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">{{ message }}</div>
-    {% endfor %}
-    {% for message in app.flashes('danger') %}
-        <div class="alert alert-danger">{{ message }}</div>
-    {% endfor %}
+        <div class="card p-4 mb-4">
+            <h2 class="h6 mb-3"><i class="bi bi-cloud-arrow-up me-1"></i>Ajouter un document</h2>
+            <form method="post" enctype="multipart/form-data">
+                <div class="input-group">
+                    <input type="file" name="document" class="form-control" required>
+                    <button class="btn btn-primary"><i class="bi bi-upload me-1"></i>Envoyer</button>
+                </div>
+                <small class="text-muted">Formats acceptés : PDF, JPG, PNG — 5 Mo maximum.</small>
+            </form>
+        </div>
 
-    <h3>Ajouter un document</h3>
-    <form method="post" enctype="multipart/form-data" class="mb-4">
-        <input type="file" name="document" class="form-control mb-2" required>
-        <button class="btn btn-primary">Envoyer</button>
-    </form>
-
-    <h3>Documents envoyés</h3>
-    {% if dossier.documents is empty %}
-        <p>Aucun document pour le moment.</p>
-    {% else %}
-        <ul class="list-group">
-            {% for document in dossier.documents %}
-                <li class="list-group-item">
-                    {{ document.nomFichier }}
-                    <span class="text-muted">({{ document.uploadedAt|date('d/m/Y') }})</span>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
-    <a href="{{ path('app_mon_compte') }}" class="btn btn-link mt-3">Retour à mon espace</a>
+        <div class="card p-4">
+            <h2 class="h6 mb-3"><i class="bi bi-files me-1"></i>Documents envoyés</h2>
+            {% if dossier.documents is empty %}
+                <p class="text-muted mb-0">Aucun document pour le moment.</p>
+            {% else %}
+                <ul class="list-group list-group-flush">
+                    {% for document in dossier.documents %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            <span><i class="bi bi-file-earmark-text me-2 text-primary"></i>{{ document.nomFichier }}</span>
+                            <span class="text-muted small">{{ document.uploadedAt|date('d/m/Y') }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}

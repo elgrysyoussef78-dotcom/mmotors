@@ -1,54 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vehicule index{% endblock %}
+{% block title %}Gestion des véhicules{% endblock %}
 
 {% block body %}
-    <h1>Vehicule index</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Gestion des véhicules</h1>
+    <a href="{{ path('app_vehicule_new') }}" class="btn btn-primary">
+        <i class="bi bi-plus-lg me-1"></i>Ajouter un véhicule
+    </a>
+</div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Marque</th>
-                <th>Modele</th>
-                <th>Motorisation</th>
-                <th>Kilometrage</th>
-                <th>PrixAchat</th>
-                <th>PrixLocationMois</th>
-                <th>Type</th>
-                <th>Statut</th>
-                <th>Photo</th>
-                <th>CreatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for vehicule in vehicules %}
-            <tr>
-                <td>{{ vehicule.id }}</td>
-                <td>{{ vehicule.marque }}</td>
-                <td>{{ vehicule.modele }}</td>
-                <td>{{ vehicule.motorisation }}</td>
-                <td>{{ vehicule.kilometrage }}</td>
-                <td>{{ vehicule.prixAchat }}</td>
-                <td>{{ vehicule.prixLocationMois }}</td>
-                <td>{{ vehicule.type }}</td>
-                <td>{{ vehicule.statut }}</td>
-                <td>{{ vehicule.photo }}</td>
-                <td>{{ vehicule.createdAt ? vehicule.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_vehicule_show', {'id': vehicule.id}) }}">show</a>
-                    <a href="{{ path('app_vehicule_edit', {'id': vehicule.id}) }}">edit</a>
-                    <a href="{{ path('app_vehicule_basculer', {id: vehicule.id}) }}">Basculer vente/location</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="12">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_vehicule_new') }}">Create new</a>
+{% if vehicules is empty %}
+    <div class="alert alert-info">Aucun véhicule enregistré.</div>
+{% else %}
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Marque / Modèle</th>
+                    <th>Motorisation</th>
+                    <th>Km</th>
+                    <th>Prix achat</th>
+                    <th>Loyer / mois</th>
+                    <th>Type</th>
+                    <th>Statut</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicule in vehicules %}
+                    <tr>
+                        <td class="fw-semibold">{{ vehicule.marque }} {{ vehicule.modele }}</td>
+                        <td>{{ vehicule.motorisation }}</td>
+                        <td>{{ vehicule.kilometrage }}</td>
+                        <td>{{ vehicule.prixAchat ? vehicule.prixAchat ~ ' €' : '—' }}</td>
+                        <td>{{ vehicule.prixLocationMois ? vehicule.prixLocationMois ~ ' €' : '—' }}</td>
+                        <td>
+                            {% if vehicule.type == 'achat' %}
+                                <span class="badge bg-primary">Achat</span>
+                            {% else %}
+                                <span class="badge bg-success">Location</span>
+                            {% endif %}
+                        </td>
+                        <td><span class="badge bg-light text-dark text-capitalize">{{ vehicule.statut }}</span></td>
+                        <td class="text-end text-nowrap">
+                            <a href="{{ path('app_vehicule_show', {id: vehicule.id}) }}" class="btn btn-sm btn-outline-secondary" title="Voir"><i class="bi bi-eye"></i></a>
+                            <a href="{{ path('app_vehicule_edit', {id: vehicule.id}) }}" class="btn btn-sm btn-outline-primary" title="Modifier"><i class="bi bi-pencil"></i></a>
+                            <a href="{{ path('app_vehicule_basculer', {id: vehicule.id}) }}" class="btn btn-sm btn-outline-dark" title="Basculer vente/location"><i class="bi bi-arrow-left-right"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

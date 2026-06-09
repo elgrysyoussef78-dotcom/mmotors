@@ -3,19 +3,51 @@
 {% block title %}{{ vehicule.marque }} {{ vehicule.modele }}{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
-    <h1>{{ vehicule.marque }} {{ vehicule.modele }}</h1>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <a href="{{ path('app_home') }}" class="btn btn-link px-0 mb-2"><i class="bi bi-arrow-left me-1"></i>Retour</a>
 
-    <p>Motorisation : {{ vehicule.motorisation }}</p>
-    <p>Kilométrage : {{ vehicule.kilometrage }} km</p>
-    <p>Type : {{ vehicule.type }}</p>
-    {% if vehicule.type == 'achat' %}
-        <p>Prix : {{ vehicule.prixAchat }} €</p>
-    {% else %}
-        <p>Loyer mensuel : {{ vehicule.prixLocationMois }} €/mois</p>
-    {% endif %}
+        <div class="card overflow-hidden">
+            <div class="row g-0">
+                <div class="col-md-5 bg-light d-flex align-items-center justify-content-center" style="min-height: 220px;">
+                    {% if vehicule.photo %}
+                        <img src="{{ asset('uploads/documents/' ~ vehicule.photo) }}" class="img-fluid" alt="{{ vehicule.marque }}">
+                    {% else %}
+                        <i class="bi bi-car-front" style="font-size: 5rem; color: #cbd5e1;"></i>
+                    {% endif %}
+                </div>
+                <div class="col-md-7">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h1 class="h3 mb-1">{{ vehicule.marque }} {{ vehicule.modele }}</h1>
+                            {% if vehicule.type == 'achat' %}
+                                <span class="badge bg-primary">À vendre</span>
+                            {% else %}
+                                <span class="badge bg-success">Location</span>
+                            {% endif %}
+                        </div>
 
-    <a href="{{ path('app_dossier_new', {id: vehicule.id}) }}" class="btn btn-success">Déposer un dossier</a>
-    <a href="{{ path('app_home') }}" class="btn btn-link">Retour</a>
+                        <ul class="list-unstyled text-muted mt-3 mb-4">
+                            <li class="mb-2"><i class="bi bi-fuel-pump me-2"></i>{{ vehicule.motorisation }}</li>
+                            <li class="mb-2"><i class="bi bi-speedometer2 me-2"></i>{{ vehicule.kilometrage }} km</li>
+                        </ul>
+
+                        <div class="mb-4">
+                            {% if vehicule.type == 'achat' %}
+                                <span class="h2 fw-bold">{{ vehicule.prixAchat }} €</span>
+                            {% else %}
+                                <span class="h2 fw-bold">{{ vehicule.prixLocationMois }} €</span>
+                                <span class="text-muted">/ mois</span>
+                            {% endif %}
+                        </div>
+
+                        <a href="{{ path('app_dossier_new', {id: vehicule.id}) }}" class="btn btn-primary btn-lg w-100">
+                            <i class="bi bi-file-earmark-text me-1"></i> Déposer un dossier
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -3,43 +3,53 @@
 {% block title %}Gestion des dossiers{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
-    <h1>Tous les dossiers</h1>
+<h1 class="mb-4">Tous les dossiers</h1>
 
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">{{ message }}</div>
-    {% endfor %}
-
-    {% if dossiers is empty %}
-        <p>Aucun dossier déposé.</p>
-    {% else %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Client</th>
-                    <th>Véhicule</th>
-                    <th>Type</th>
-                    <th>Statut</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for dossier in dossiers %}
+{% if dossiers is empty %}
+    <div class="alert alert-info">Aucun dossier déposé.</div>
+{% else %}
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
                     <tr>
-                        <td>{{ dossier.user.prenom }} {{ dossier.user.nom }}</td>
-                        <td>{{ dossier.vehicule.marque }} {{ dossier.vehicule.modele }}</td>
-                        <td>{{ dossier.type }}</td>
-                        <td>{{ dossier.statut }}</td>
-                        <td>{{ dossier.createdAt|date('d/m/Y') }}</td>
-                        <td>
-                            <a href="{{ path('app_admin_dossier_valider', {id: dossier.id}) }}" class="btn btn-success btn-sm">Valider</a>
-                            <a href="{{ path('app_admin_dossier_refuser', {id: dossier.id}) }}" class="btn btn-danger btn-sm">Refuser</a>
-                        </td>
+                        <th>Client</th>
+                        <th>Véhicule</th>
+                        <th>Type</th>
+                        <th>Statut</th>
+                        <th>Date</th>
+                        <th class="text-end">Actions</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
-</div>
+                </thead>
+                <tbody>
+                    {% for dossier in dossiers %}
+                        <tr>
+                            <td class="fw-semibold">{{ dossier.user.prenom }} {{ dossier.user.nom }}</td>
+                            <td>{{ dossier.vehicule.marque }} {{ dossier.vehicule.modele }}</td>
+                            <td><span class="badge bg-secondary text-capitalize">{{ dossier.type }}</span></td>
+                            <td>
+                                {% if dossier.statut == 'valide' %}
+                                    <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Validé</span>
+                                {% elseif dossier.statut == 'refuse' %}
+                                    <span class="badge bg-danger"><i class="bi bi-x-circle me-1"></i>Refusé</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark"><i class="bi bi-clock me-1"></i>En attente</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ dossier.createdAt|date('d/m/Y') }}</td>
+                            <td class="text-end">
+                                <a href="{{ path('app_admin_dossier_valider', {id: dossier.id}) }}" class="btn btn-sm btn-success">
+                                    <i class="bi bi-check-lg"></i> Valider
+                                </a>
+                                <a href="{{ path('app_admin_dossier_refuser', {id: dossier.id}) }}" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-x-lg"></i> Refuser
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
 {% endblock %}
