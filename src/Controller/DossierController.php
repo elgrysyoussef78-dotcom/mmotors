@@ -32,6 +32,12 @@ class DossierController extends AbstractController
             $dossier->setStatut('en_attente');
             $dossier->setCreatedAt(new \DateTimeImmutable());
 
+            // On enregistre les options uniquement si c'est une location
+            $optionsChoisies = $form->get('options')->getData();
+            if ($dossier->getType() === 'location' && !empty($optionsChoisies)) {
+                $dossier->setOptions(implode(', ', $optionsChoisies));
+            }
+
             $em->persist($dossier);
             $em->flush();
 
@@ -55,6 +61,7 @@ class DossierController extends AbstractController
         ]);
     }
 
+
     #[Route('/admin/dossier/{id}/valider', name: 'app_admin_dossier_valider')]
     #[IsGranted('ROLE_ADMIN')]
     public function valider(Dossier $dossier, EntityManagerInterface $em): Response
@@ -77,6 +84,15 @@ class DossierController extends AbstractController
         $this->addFlash('success', 'Le dossier a été refusé.');
 
         return $this->redirectToRoute('app_admin_dossiers');
+    }
+
+    #[Route('/admin/dossier/{id}', name: 'app_admin_dossier_show')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function adminShow(Dossier $dossier): Response
+    {
+        return $this->render('dossier/admin_show.html.twig', [
+            'dossier' => $dossier,
+        ]);
     }
 
     #[Route('/dossier/{id}/documents', name: 'app_dossier_documents')]
@@ -139,4 +155,6 @@ class DossierController extends AbstractController
             'dossier' => $dossier,
         ]);
     }
+
+
 }

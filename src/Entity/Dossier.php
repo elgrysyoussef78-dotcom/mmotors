@@ -38,6 +38,9 @@ class Dossier
     #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'dossier')]
     private Collection $documents;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $options = null;
+
     public function __construct()
     {
         $this->documents = new ArrayCollection();
@@ -134,6 +137,18 @@ class Dossier
                 $document->setDossier(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOptions(): ?string
+    {
+        return $this->options;
+    }
+
+    public function setOptions(?string $options): static
+    {
+        $this->options = $options;
 
         return $this;
     }

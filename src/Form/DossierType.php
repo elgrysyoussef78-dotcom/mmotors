@@ -3,11 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Dossier;
-use App\Entity\User;
-use App\Entity\Vehicule;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,6 +20,19 @@ class DossierType extends AbstractType
                     'Location' => 'location',
                 ],
                 'placeholder' => 'Choisir...',
+            ])
+            ->add('options', ChoiceType::class, [
+                'label' => 'Options (location uniquement)',
+                'required' => false,
+                'multiple' => true,
+                'expanded' => true,
+                'mapped' => false,
+                'choices' => [
+                    'Assurance tous risques' => 'Assurance tous risques',
+                    'Assistance dépannage' => 'Assistance dépannage',
+                    'Entretien et SAV' => 'Entretien et SAV',
+                    'Contrôle technique' => 'Contrôle technique',
+                ],
             ])
         ;
     }

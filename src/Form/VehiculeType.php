@@ -7,6 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class VehiculeType extends AbstractType
 {
@@ -20,21 +21,27 @@ class VehiculeType extends AbstractType
             ->add('prixAchat')
             ->add('prixLocationMois')
             ->add('type', ChoiceType::class, [
-    'choices' => [
-        'Achat' => 'achat',
-        'Location' => 'location',
-    ],
-    'placeholder' => 'Choisir un type',
-])
-->add('statut', ChoiceType::class, [
-    'choices' => [
-        'Disponible' => 'disponible',
-        'Réservé' => 'reserve',
-    ],
-    'placeholder' => 'Choisir un statut',
-])
-            ->add('photo') ;
+                'choices' => [
+                    'Achat' => 'achat',
+                    'Location' => 'location',
+                ],
+                'placeholder' => 'Choisir un type',
+            ])
+            ->add('statut', ChoiceType::class, [
+                'choices' => [
+                    'Disponible' => 'disponible',
+                    'Réservé' => 'reserve',
+                ],
+                'placeholder' => 'Choisir un statut',
+            ])
+            ->add('photoFile', FileType::class, [
+                'label' => 'Photo du véhicule',
+                'mapped' => false,
+                'required' => false,
+            ]);
+
     }
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {

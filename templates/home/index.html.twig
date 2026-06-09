@@ -21,7 +21,7 @@
                 <div class="card h-100">
                     <div class="bg-light d-flex align-items-center justify-content-center" style="height: 160px;">
                         {% if vehicule.photo %}
-                            <img src="{{ asset('uploads/documents/' ~ vehicule.photo) }}" class="img-fluid" style="max-height: 160px;" alt="{{ vehicule.marque }}">
+                            <img src="{{ asset('uploads/vehicules/' ~ vehicule.photo) }}" class="img-fluid" style="max-height: 160px;" alt="{{ vehicule.marque }}">
                         {% else %}
                             <i class="bi bi-car-front" style="font-size: 3.5rem; color: #cbd5e1;"></i>
                         {% endif %}

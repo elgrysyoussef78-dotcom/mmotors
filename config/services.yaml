@@ -8,7 +8,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     dossier_documents: '%kernel.project_dir%/public/uploads/documents'
-    
+    dossier_vehicules: '%kernel.project_dir%/public/uploads/vehicules'
 services:
     # default configuration for services in *this* file
     _defaults:

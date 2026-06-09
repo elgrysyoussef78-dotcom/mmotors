@@ -6,45 +6,53 @@
 <h1 class="mb-4">Mes dossiers</h1>
 
 {% if dossiers is empty %}
-    <div class="alert alert-info">Vous n'avez aucun dossier pour le moment. <a href="{{ path('app_home') }}">Parcourir les véhicules</a>.</div>
+<div class="alert alert-info">Vous n'avez aucun dossier pour le moment. <a href="{{ path('app_home') }}">Parcourir les
+        véhicules</a>.</div>
 {% else %}
-    <div class="card">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th>Véhicule</th>
-                        <th>Type</th>
-                        <th>Statut</th>
-                        <th>Date</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for dossier in dossiers %}
-                        <tr>
-                            <td class="fw-semibold">{{ dossier.vehicule.marque }} {{ dossier.vehicule.modele }}</td>
-                            <td><span class="badge bg-secondary text-capitalize">{{ dossier.type }}</span></td>
-                            <td>
-                                {% if dossier.statut == 'valide' %}
-                                    <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Validé</span>
-                                {% elseif dossier.statut == 'refuse' %}
-                                    <span class="badge bg-danger"><i class="bi bi-x-circle me-1"></i>Refusé</span>
-                                {% else %}
-                                    <span class="badge bg-warning text-dark"><i class="bi bi-clock me-1"></i>En attente</span>
-                                {% endif %}
-                            </td>
-                            <td>{{ dossier.createdAt|date('d/m/Y') }}</td>
-                            <td>
-                                <a href="{{ path('app_dossier_documents', {id: dossier.id}) }}" class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-paperclip me-1"></i>Documents
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Véhicule</th>
+                    <th>Type</th>
+                    <th>Statut</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dossier in dossiers %}
+                <tr>
+                    <td class="fw-semibold">
+                        {{ dossier.vehicule.marque }} {{ dossier.vehicule.modele }}
+                        {% if dossier.options %}
+                        <br><small class="text-muted fw-normal"><i class="bi bi-plus-circle me-1"></i>{{ dossier.options
+                            }}</small>
+                        {% endif %}
+                    </td>
+                    <td><span class="badge bg-secondary text-capitalize">{{ dossier.type }}</span></td>
+                    <td>
+                        {% if dossier.statut == 'valide' %}
+                        <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Validé</span>
+                        {% elseif dossier.statut == 'refuse' %}
+                        <span class="badge bg-danger"><i class="bi bi-x-circle me-1"></i>Refusé</span>
+                        {% else %}
+                        <span class="badge bg-warning text-dark"><i class="bi bi-clock me-1"></i>En attente</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ dossier.createdAt|date('d/m/Y') }}</td>
+                    <td>
+                        <a href="{{ path('app_dossier_documents', {id: dossier.id}) }}"
+                            class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-paperclip me-1"></i>Documents
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+</div>
 {% endif %}
 {% endblock %}
