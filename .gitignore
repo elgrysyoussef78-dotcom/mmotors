@@ -16,6 +16,8 @@
 
 ###> uploads & coverage ###
 /public/uploads/documents/*
+!/public/uploads/documents/.gitkeep
 /public/uploads/vehicules/*
+!/public/uploads/vehicules/.gitkeep
 /public/coverage/
 ###< uploads & coverage ###
