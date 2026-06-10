@@ -13,3 +13,9 @@
 /phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
+
+###> uploads & coverage ###
+/public/uploads/documents/*
+/public/uploads/vehicules/*
+/public/coverage/
+###< uploads & coverage ###

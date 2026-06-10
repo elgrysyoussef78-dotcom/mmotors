@@ -209,4 +209,64 @@ class ActionsTest extends WebTestCase
 
         $this->assertResponseRedirects();
     }
+
+    public function testAdminVoitDetailDossier(): void
+    {
+        $client = static::createClient();
+        $userRepo = static::getContainer()->get(\App\Repository\UserRepository::class);
+        $dossierRepo = static::getContainer()->get(\App\Repository\DossierRepository::class);
+
+        $admin = $userRepo->findOneBy(['email' => 'admin@mmotors.fr']);
+        $client->loginUser($admin);
+
+        $dossier = $dossierRepo->findOneBy([]);
+        if ($dossier) {
+            $client->request('GET', '/admin/dossier/' . $dossier->getId());
+            $this->assertResponseIsSuccessful();
+        } else {
+            $this->markTestSkipped('Aucun dossier en base de test.');
+        }
+    }
+
+    public function testAdminModifieVehicule(): void
+    {
+        $client = static::createClient();
+        $userRepo = static::getContainer()->get(\App\Repository\UserRepository::class);
+        $vehiculeRepo = static::getContainer()->get(\App\Repository\VehiculeRepository::class);
+
+        $admin = $userRepo->findOneBy(['email' => 'admin@mmotors.fr']);
+        $client->loginUser($admin);
+
+        $vehicule = $vehiculeRepo->findOneBy([]);
+        $client->request('GET', '/vehicule/' . $vehicule->getId() . '/edit');
+        $this->assertResponseIsSuccessful();
+
+        $client->submitForm('Mettre à jour', [
+            'vehicule[marque]' => 'Renault',
+            'vehicule[modele]' => 'Mégane',
+            'vehicule[motorisation]' => 'Diesel',
+            'vehicule[kilometrage]' => '45000',
+            'vehicule[type]' => 'achat',
+            'vehicule[statut]' => 'disponible',
+        ]);
+        $this->assertResponseRedirects();
+    }
+
+    public function testClientDeposeDossierLocationAvecOptions(): void
+    {
+        $client = static::createClient();
+        $userRepo = static::getContainer()->get(\App\Repository\UserRepository::class);
+        $vehiculeRepo = static::getContainer()->get(\App\Repository\VehiculeRepository::class);
+
+        $clientUser = $userRepo->findOneBy(['email' => 'elgrysyoussef78@gmail.com']);
+        $client->loginUser($clientUser);
+
+        $vehicule = $vehiculeRepo->findOneBy([]);
+        $client->request('GET', '/dossier/nouveau/' . $vehicule->getId());
+
+        $client->submitForm('Envoyer ma demande', [
+            'dossier[type]' => 'location',
+        ]);
+        $this->assertResponseRedirects();
+    }
 }
