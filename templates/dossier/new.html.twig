@@ -18,10 +18,22 @@
                 <div class="mb-3">
                     {{ form_row(form.type, {attr: {class: 'form-select'}}) }}
                 </div>
-                <div class="mb-3">
-                    {{ form_row(form.options) }}
+
+                <div class="mb-3" id="options-location">
+                    <label class="form-label">Options (location uniquement)</label>
+                    <div class="row g-2">
+                        {% for option in form.options %}
+                            <div class="col-md-6">
+                                <div class="form-check border rounded p-2 ps-4 h-100 d-flex align-items-center">
+                                    {{ form_widget(option, {attr: {class: 'form-check-input me-2'}}) }}
+                                    {{ form_label(option, null, {label_attr: {class: 'form-check-label mb-0'}}) }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
                     <small class="text-muted">Ces options ne s'appliquent qu'aux locations.</small>
                 </div>
+
                 <button class="btn btn-primary w-100">
                     <i class="bi bi-send me-1"></i> Envoyer ma demande
                 </button>
@@ -29,4 +41,25 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    const typeSelect = document.querySelector('#dossier_type');
+    const optionsBlock = document.querySelector('#options-location');
+
+    function toggleOptions() {
+        if (typeSelect.value === 'location') {
+            optionsBlock.style.display = 'block';
+        } else {
+            optionsBlock.style.display = 'none';
+        }
+    }
+
+    if (typeSelect && optionsBlock) {
+        toggleOptions();
+        typeSelect.addEventListener('change', toggleOptions);
+    }
+</script>
 {% endblock %}

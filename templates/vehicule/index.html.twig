@@ -11,7 +11,7 @@
 </div>
 
 {% if vehicules is empty %}
-    <div class="alert alert-info">Aucun véhicule enregistré.</div>
+<div class="alert alert-info">Aucun véhicule enregistré.</div>
 {% else %}
 <div class="card">
     <div class="table-responsive">
@@ -30,26 +30,36 @@
             </thead>
             <tbody>
                 {% for vehicule in vehicules %}
-                    <tr>
-                        <td class="fw-semibold">{{ vehicule.marque }} {{ vehicule.modele }}</td>
-                        <td>{{ vehicule.motorisation }}</td>
-                        <td>{{ vehicule.kilometrage }}</td>
-                        <td>{{ vehicule.prixAchat ? vehicule.prixAchat ~ ' €' : '—' }}</td>
-                        <td>{{ vehicule.prixLocationMois ? vehicule.prixLocationMois ~ ' €' : '—' }}</td>
-                        <td>
-                            {% if vehicule.type == 'achat' %}
-                                <span class="badge bg-primary">Achat</span>
-                            {% else %}
-                                <span class="badge bg-success">Location</span>
-                            {% endif %}
-                        </td>
-                        <td><span class="badge bg-light text-dark text-capitalize">{{ vehicule.statut }}</span></td>
-                        <td class="text-end text-nowrap">
-                            <a href="{{ path('app_vehicule_show', {id: vehicule.id}) }}" class="btn btn-sm btn-outline-secondary" title="Voir"><i class="bi bi-eye"></i></a>
-                            <a href="{{ path('app_vehicule_edit', {id: vehicule.id}) }}" class="btn btn-sm btn-outline-primary" title="Modifier"><i class="bi bi-pencil"></i></a>
-                            <a href="{{ path('app_vehicule_basculer', {id: vehicule.id}) }}" class="btn btn-sm btn-outline-dark" title="Basculer vente/location"><i class="bi bi-arrow-left-right"></i></a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td class="fw-semibold">{{ vehicule.marque }} {{ vehicule.modele }}</td>
+                    <td>{{ vehicule.motorisation }}</td>
+                    <td>{{ vehicule.kilometrage }}</td>
+                    <td>{{ vehicule.prixAchat ? vehicule.prixAchat ~ ' €' : '—' }}</td>
+                    <td>{{ vehicule.prixLocationMois ? vehicule.prixLocationMois ~ ' €' : '—' }}</td>
+                    <td>
+                        {% if vehicule.type == 'achat' %}
+                        <span class="badge bg-primary">Achat</span>
+                        {% else %}
+                        <span class="badge bg-success">Location</span>
+                        {% endif %}
+                    </td>
+                    <td><span class="badge bg-light text-dark text-capitalize">{{ vehicule.statut }}</span></td>
+                    <td class="text-end text-nowrap">
+                        <a href="{{ path('app_vehicule_show', {id: vehicule.id}) }}"
+                            class="btn btn-sm btn-outline-secondary" title="Voir"><i class="bi bi-eye"></i></a>
+                        <a href="{{ path('app_vehicule_edit', {id: vehicule.id}) }}"
+                            class="btn btn-sm btn-outline-primary" title="Modifier"><i class="bi bi-pencil"></i></a>
+                        <a href="{{ path('app_vehicule_basculer', {id: vehicule.id}) }}"
+                            class="btn btn-sm btn-outline-dark" title="Basculer vente/location"><i
+                                class="bi bi-arrow-left-right"></i></a>
+                        <form method="post" action="{{ path('app_vehicule_delete', {id: vehicule.id}) }}"
+                            class="d-inline" onsubmit="return confirm('Supprimer définitivement ce véhicule ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ vehicule.id) }}">
+                            <button class="btn btn-sm btn-outline-danger" title="Supprimer"><i
+                                    class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>

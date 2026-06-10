@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page introuvable{% endblock %}
+
+{% block body %}
+<div class="text-center py-5">
+    <div style="font-size: 6rem; line-height: 1;">🚗💨</div>
+    <h1 class="display-1 fw-bold mt-3" style="color: var(--mm-accent);">404</h1>
+    <h2 class="h4 mb-3">Oups… vous êtes perdu dans nos délires !</h2>
+    <p class="text-muted mb-4 mx-auto" style="max-width: 480px;">
+        La page que vous cherchez a pris la route et n'existe pas (ou plus).
+        Pas de panique, on vous ramène à bon port.
+    </p>
+    <a href="{{ path('app_home') }}" class="btn btn-primary btn-lg">
+        <i class="bi bi-house-door me-1"></i> Retour à l'accueil
+    </a>
+</div>
+{% endblock %}

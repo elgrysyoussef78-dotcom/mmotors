@@ -48,7 +48,7 @@ class Vehicule
     /**
      * @var Collection<int, Dossier>
      */
-    #[ORM\OneToMany(targetEntity: Dossier::class, mappedBy: 'vehicule')]
+    #[ORM\OneToMany(targetEntity: Dossier::class, mappedBy: 'vehicule', cascade: ['remove'], orphanRemoval: true)]
     private Collection $dossiers;
 
     public function __construct()

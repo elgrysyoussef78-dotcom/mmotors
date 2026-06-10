@@ -146,7 +146,7 @@ class ActionsTest extends WebTestCase
 
         $client->request('GET', '/vehicule/new');
 
-        $client->submitForm('Save', [
+        $client->submitForm('Créer', [
             'vehicule[marque]' => 'Toyota',
             'vehicule[modele]' => 'Yaris',
             'vehicule[motorisation]' => 'Hybride',

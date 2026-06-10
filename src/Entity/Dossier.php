@@ -35,7 +35,7 @@ class Dossier
     /**
      * @var Collection<int, Document>
      */
-    #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'dossier')]
+    #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'dossier', cascade: ['remove'], orphanRemoval: true)]
     private Collection $documents;
 
     #[ORM\Column(length: 255, nullable: true)]
