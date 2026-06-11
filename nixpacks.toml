@@ -2,7 +2,7 @@
 nixPkgs = ["php82", "php82Packages.composer", "nodejs"]
 
 [phases.install]
-cmds = ["composer install --optimize-autoloader --no-interaction"]
+cmds = ["COMPOSER_ALLOW_SUPERUSER=1 composer install --optimize-autoloader --no-interaction"]
 
 [phases.build]
 cmds = [
