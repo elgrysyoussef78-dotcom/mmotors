@@ -1,10 +1,10 @@
-<?php
+﻿<?php
 
 use App\Kernel;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 
-require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+require dirname(__DIR__).'/vendor/autoload.php';
 
 (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
 
