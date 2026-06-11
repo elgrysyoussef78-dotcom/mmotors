@@ -12,5 +12,5 @@ COPY . /app
 # Installer les dépendances
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --optimize-autoloader --no-interaction
 
-# Démarrer le serveur
+# Démarrer le serveurz
 CMD php -S 0.0.0.0:$PORT -t public
