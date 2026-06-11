@@ -1,8 +1,0 @@
-﻿[phases.install]
-cmds = ["COMPOSER_ALLOW_SUPERUSER=1 composer install --optimize-autoloader --no-interaction"]
-
-[phases.build]
-cmds = ["COMPOSER_ALLOW_SUPERUSER=1 composer dump-autoload --optimize --no-interaction"]
-
-[start]
-cmd = "php -S 0.0.0.0:$PORT -t public"
