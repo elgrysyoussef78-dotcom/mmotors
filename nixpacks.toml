@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["php82", "php82Packages.composer", "nodejs"]
+nixPkgs = ["php82", "php82Extensions.pdo_mysql", "php82Packages.composer", "nodejs"]
 
 [phases.install]
 cmds = ["COMPOSER_ALLOW_SUPERUSER=1 composer install --optimize-autoloader --no-interaction"]
